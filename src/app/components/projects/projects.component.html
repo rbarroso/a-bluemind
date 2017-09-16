@@ -1,0 +1,22 @@
+<div *ngIf="!_tokenService.hasToken()">
+ <app-welcome></app-welcome>
+</div>
+
+<div *ngIf="_tokenService.hasToken() && _projectsService.projects.length > 0" class="container">
+
+  <div>
+    <h2>Desarrollo</h2>
+    <hr>
+    <ul class="list-group">
+      <li class="list-group-item"
+          *ngFor="let project of _projectsService.filterProjects(1, ['Desarrollo', 'Mantenimiento'])">
+        {{ project.name }}
+      </li>
+    </ul>
+    <h2>Interno</h2>
+    <hr>
+    <h2>Comercial</h2>
+    <hr>
+  </div>
+
+</div>

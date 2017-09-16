@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="form-group">
+      <label for="tokenInput">Token de acceso</label>
+      <i *ngIf="verToken" (click)="verToken = !verToken" class="fa fa-eye fa-lg clickableAwesomeFont"></i>
+      <i *ngIf="!verToken" (click)="verToken = !verToken" class="fa fa-eye-slash fa-lg clickableAwesomeFont"></i>
+      <input [(ngModel)]="token"
+             name="token"
+             [type]="verToken ? 'text' : 'password'"
+             class="form-control" id="tokenInput"
+             aria-describedby="tokenHelp"
+             placeholder="Introducir token de acceso">
+      <small id="tokenHelp" class="form-text text-muted">redmine.sdos.es > Mi cuenta > Clave de acceso API > Mostrar</small>
+    </div>
+    <button class="btn btn-primary btn-lg" (click)="guardar()">Guardar configuración</button>
+    <button class="btn btn-danger btn-lg" (click)="limpiar()">Limpiar</button>
+</div>
