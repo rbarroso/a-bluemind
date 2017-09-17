@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 
 // Services
 import { TokenService } from './services/token/token.service';
-import { ProjectsService } from './projects/projects.service';
+import { ProjectsService } from './services/projects/projects.service';
 
 // Componentes shared
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
