@@ -17,10 +17,6 @@ export class TokenService {
     localStorage.setItem(this.lsTokenProperty, token);
   }
 
-  eliminarToken() {
-    localStorage.removeItem(this.lsTokenProperty);
-  }
-
   getToken(): string {
     if (this.hasToken()) {
       return localStorage.getItem(this.lsTokenProperty);

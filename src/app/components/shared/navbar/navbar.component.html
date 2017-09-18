@@ -20,8 +20,10 @@
     </ul>
 
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="#issues, projects..." aria-label="Buscar">
-      <button class="btn btn-outline-primary my-2 my-sm-0">Buscar</button>
+      <input #searchInput class="form-control mr-sm-2"
+             type="text" placeholder="#issues, projects..." aria-label="Buscar"
+            (keyup)="search(searchInput.value)">
+      <button (click)="search(searchInput.value)" class="btn btn-outline-primary my-2 my-sm-0">Buscar</button>
     </form>
 
   </div>

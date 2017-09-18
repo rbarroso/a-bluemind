@@ -26,7 +26,7 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   limpiar(): void {
-    this._tokenService.eliminarToken();
+    localStorage.clear();
     this.token = '';
   }
 

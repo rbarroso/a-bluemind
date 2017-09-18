@@ -1,20 +1,24 @@
 <div *ngIf="!_tokenService.hasToken()">
   <app-welcome></app-welcome>
 </div>
-
-<div class="container" *ngIf="_tokenService.hasToken() && _projectsService.projects.length > 0">
+<div class="container animated fade fadeIn fast"
+     *ngIf="_tokenService.hasToken() && _projectsService.projects.length > 0">
   <div class="row">
     <div class="col">
-      <h2>Producción</h2>
+      <h2>Producción
+        <small>
+          <i (click)="changeSlice(1)" class="fa fa-plus-square-o clickableAwesomeFont"
+             aria-hidden="true" title="Ver más proyectos" ></i>
+        </small>
+      </h2>
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action" [ngClass]="claseActiva"
-            *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.productionProjectsTypes) | slice:0:4">
+            *ngFor="let project of productionProjects | slice:0:productionSlice">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.productionProjectsTypes).length == 0">
+            *ngIf="productionProjects.length == 0">
           Sin items
         </li>
       </ul>
@@ -24,14 +28,15 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes) | slice:0:4">
+            _projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes, _projectsService.filter) | slice:0:4">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes).length == 0">
+            *ngIf="_projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes, _projectsService.filter).length == 0">
           Sin items
         </li>
-      </ul></div>
+      </ul>
+    </div>
     <div class="w-100"></div>
     <div class="col mt-2">
       <h2>Interno</h2>
@@ -39,11 +44,11 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.internalProjectsTypes) | slice:0:4">
+            _projectsService.filterProjects(1, _projectsService.internalProjectsTypes, _projectsService.filter) | slice:0:4">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.internalProjectsTypes).length == 0">
+            *ngIf="_projectsService.filterProjects(1, _projectsService.internalProjectsTypes, _projectsService.filter).length == 0">
           Sin items
         </li>
       </ul>
@@ -54,11 +59,11 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.comercialProjectsTypes) | slice:0:4">
+            _projectsService.filterProjects(1, _projectsService.comercialProjectsTypes, _projectsService.filter) | slice:0:comercialSlice">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.comercialProjectsTypes).length == 0">
+            *ngIf="_projectsService.filterProjects(1, _projectsService.comercialProjectsTypes, _projectsService.filter).length == 0">
           Sin items
         </li>
       </ul>

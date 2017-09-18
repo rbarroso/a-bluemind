@@ -21,6 +21,8 @@ export class ProjectsService {
   protocolo: string = 'https://'
   urlProjects: string = 'redmine.sdos.es/projects.json';
 
+  filter: string = '';
+
   constructor(private http: Http, private jsonp: Jsonp, private _tokenService: TokenService) {}
 
   getLocalProjects() {
@@ -55,17 +57,17 @@ export class ProjectsService {
     return `&key=${this._tokenService.getToken()}`;
   }
 
-  filterProjects(status: number = 1, categories: string[]) {
+  filterProjects(status: number = 1, categories?: string[], filter?: string) {
     return this.projects.filter(project => {
         if (categories.indexOf(project.type) != -1) {
-          return true;
+          if (filter) {
+            return project.name.toLowerCase().indexOf(filter.toLowerCase()) != -1 ? true : false;
+          } else {
+            return true;
+          }
         }
       return false;
     });
-  }
-
-  clearList() {
-    this.projects = [];
   }
 
   updateNumberOfProjects() {
@@ -79,6 +81,10 @@ export class ProjectsService {
       .map(res => {
         localStorage.setItem(this.lsProjectsCountProperty, String(res.json().total_count));
       });
+  }
+
+  clearList() {
+    this.projects = [];
   }
 
 
