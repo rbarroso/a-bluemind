@@ -4,18 +4,23 @@
 <div class="container animated fade fadeIn fast"
      *ngIf="_tokenService.hasToken() && _projectsService.projects.length > 0">
   <div class="row">
+    <!--PRODUCCION-->
     <div class="col">
       <h2>Producción
-        <small>
-          <i (click)="changeSlice(1)" class="fa fa-plus-square-o clickableAwesomeFont"
-             aria-hidden="true" title="Ver más proyectos" ></i>
-        </small>
+        <i (click)="changeSlice(1)"
+           *ngIf="productionProjects.length > productionSlice"
+           class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver todos los proyectos"></i>
+        <i (click)="changeSlice(1)"
+           *ngIf="productionProjects.length == productionSlice && productionProjects.length > minimunSlice"
+           class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver menos proyectos"></i>
       </h2>
       <hr>
       <ul class="list-group">
-        <li class="list-group-item list-group-item-action" [ngClass]="claseActiva"
+        <li class="list-group-item list-group-item-action"
             *ngFor="let project of productionProjects | slice:0:productionSlice">
-          {{ project.name }}
+            {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
             *ngIf="productionProjects.length == 0">
@@ -23,51 +28,78 @@
         </li>
       </ul>
     </div>
-    <div class="col"><h2>Estructural</h2>
+    <!--ESTRUCTURAL-->
+    <div class="col">
+      <h2>Estructural
+        <i (click)="changeSlice(2)"
+           *ngIf="estructuralProjects.length > estructuralSlice"
+           class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver todos los proyectos"></i>
+        <i (click)="changeSlice(2)"
+           *ngIf="estructuralProjects.length == estructuralSlice && estructuralProjects.length > minimunSlice"
+           class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver menos proyectos"></i>
+      </h2>
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes, _projectsService.filter) | slice:0:4">
-          {{ project.name }}
+            *ngFor="let project of estructuralProjects | slice:0:estructuralSlice">
+            {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes, _projectsService.filter).length == 0">
-          Sin items
+            *ngIf="estructuralProjects.length == 0">
+            Sin items
         </li>
       </ul>
     </div>
     <div class="w-100"></div>
+    <!--INTERNO-->
     <div class="col mt-2">
-      <h2>Interno</h2>
+      <h2>Interno
+        <i (click)="changeSlice(3)"
+           *ngIf="internalProjects.length > internalSlice"
+           class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver todos los proyectos"></i>
+        <i (click)="changeSlice(3)"
+           *ngIf="internalProjects.length == internalSlice && internalProjects.length > minimunSlice"
+           class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver menos proyectos"></i>
+      </h2>
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.internalProjectsTypes, _projectsService.filter) | slice:0:4">
-          {{ project.name }}
+            *ngFor="let project of internalProjects | slice:0:internalSlice">
+             {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.internalProjectsTypes, _projectsService.filter).length == 0">
-          Sin items
+            *ngIf="internalProjects.length == 0">
+            Sin items
         </li>
       </ul>
     </div>
+    <!--COMERCIAL-->
     <div class="col mt-2">
-      <h2>Comercial</h2>
+      <h2>Comercial
+        <i (click)="changeSlice(4)"
+           *ngIf="comercialProjects.length > comercialSlice"
+           class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver todos los proyectos"></i>
+        <i (click)="changeSlice(4)"
+           *ngIf="comercialProjects.length == comercialSlice && comercialProjects.length > minimunSlice"
+           class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
+           aria-hidden="true" title="Ver menos proyectos"></i>
+      </h2>
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.comercialProjectsTypes, _projectsService.filter) | slice:0:comercialSlice">
-          {{ project.name }}
+            *ngFor="let project of comercialProjects | slice:0:comercialSlice">
+            {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
-            *ngIf="_projectsService.filterProjects(1, _projectsService.comercialProjectsTypes, _projectsService.filter).length == 0">
-          Sin items
+            *ngIf="comercialProjects.length == 0">
+            Sin items
         </li>
       </ul>
     </div>
   </div>
-
 </div>

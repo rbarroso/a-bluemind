@@ -1,6 +1,6 @@
-import {RouterModule, Routes} from '@angular/router';
-import {ProjectsComponent} from './components/projects/projects.component';
-import {ConfiguracionComponent} from './components/configuracion/configuracion.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ConfiguracionComponent } from './components/configuracion/configuracion.component';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 const APP_ROUTES: Routes = [
   { path: 'projects', component: ProjectsComponent },

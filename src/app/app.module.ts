@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 // Services
 import { TokenService } from './services/token/token.service';
 import { ProjectsService } from './services/projects/projects.service';
+import { FilterEventService } from './services/filter-event/filter-event.service';
 
 // Componentes shared
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -35,7 +36,7 @@ import { APP_ROUTING } from './app.routes';
     JsonpModule,
     APP_ROUTING
   ],
-  providers: [TokenService, ProjectsService],
+  providers: [TokenService, ProjectsService, FilterEventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TokenService } from '../../../services/token/token.service';
-import { ProjectsService } from "../../../services/projects/projects.service";
-import {Router} from "@angular/router";
+import {FilterEventService} from '../../../services/filter-event/filter-event.service';
 
 @Component ({
   selector: 'app-navbar',
@@ -11,16 +10,13 @@ import {Router} from "@angular/router";
 
 export class NavbarComponent implements OnInit {
 
-  constructor(private _tokenService: TokenService,
-              private _projectsService: ProjectsService,
-              private router: Router) { }
+  constructor(private _tokenService: TokenService, private _filterEventService: FilterEventService) {}
 
   ngOnInit() {
   }
 
   search(filter: string) {
-    this._projectsService.filter = filter;
-    this.router.navigate(['/projects']);
+    this._filterEventService.publish(filter);
   }
 
 }

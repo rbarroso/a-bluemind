@@ -57,7 +57,7 @@ export class ProjectsService {
     return `&key=${this._tokenService.getToken()}`;
   }
 
-  filterProjects(status: number = 1, categories?: string[], filter?: string) {
+  filterProjects(categories: string[], filter?: string) {
     return this.projects.filter(project => {
         if (categories.indexOf(project.type) != -1) {
           if (filter) {
