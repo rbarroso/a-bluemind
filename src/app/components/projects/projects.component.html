@@ -10,7 +10,7 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action" [ngClass]="claseActiva"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.productionProjectsTypes)">
+            _projectsService.filterProjects(1, _projectsService.productionProjectsTypes) | slice:0:4">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
@@ -24,7 +24,7 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes)">
+            _projectsService.filterProjects(1, _projectsService.estructuralProjectsTypes) | slice:0:4">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
@@ -39,7 +39,7 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.internalProjectsTypes)">
+            _projectsService.filterProjects(1, _projectsService.internalProjectsTypes) | slice:0:4">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
@@ -54,7 +54,7 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
             *ngFor="let project of
-            _projectsService.filterProjects(1, _projectsService.comercialProjectsTypes)">
+            _projectsService.filterProjects(1, _projectsService.comercialProjectsTypes) | slice:0:4">
           {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Http, Jsonp} from '@angular/http';
+import { Http, Jsonp } from '@angular/http';
 import { TokenService } from '../token/token.service';
 import 'rxjs/add/operator/map';
+import { Project } from '../../models/index';
 
 @Injectable()
 export class ProjectsService {
@@ -12,51 +13,53 @@ export class ProjectsService {
   internalProjectsTypes: string[] = ['Gestión Interna', 'Interno'];
   estructuralProjectsTypes: string[] = ['Estructural'];
 
-  projects: any[] = [];
-  projectsCount: number = 0;
+  projects: Project[] = [];
+
+  lsProjectsCountProperty = 'redmine_projects_number';
+  lsProjectsProperty = 'redmine_projects';
 
   protocolo: string = 'https://'
   urlProjects: string = 'redmine.sdos.es/projects.json';
 
-  constructor(private http: Http, private jsonp: Jsonp, private _tokeService: TokenService) {}
+  constructor(private http: Http, private jsonp: Jsonp, private _tokenService: TokenService) {}
 
-  /*getProjects(limit: number, offset: number) {
-    let query = `?offset=${offset}&limit=${limit}`;
-    let url = this.protocolo + this.getSecurityString() + this.urlProjects + query;
-    return this._jsonp.get(url)
-      .map(res => {
-        // this.artistas = res.json().artists.items;
-        // return this.artistas;
-      });
-  }*/
+  getLocalProjects() {
+    this.projects = JSON.parse(localStorage.getItem(this.lsProjectsProperty));
+  }
 
-  getProjects(limit: number = 10, offset: number = 1) {
-    if (this._tokeService.hasToken()){
+  getRemoteProjects(limit: number = 10, offset: number = 1) {
+    if (this._tokenService.hasToken()) {
+
       let query = `?offset=${offset}&limit=${limit}`;
       let url = this.protocolo + this.urlProjects + query + this.getSecurityString() + '&callback=JSONP_CALLBACK';
+
       return this.jsonp.get(url)
         .map(res => {
-          this.projectsCount = res.json().total_count;
+
+          localStorage.setItem(this.lsProjectsCountProperty, String(res.json().total_count));
           let projects: any[] = res.json().projects;
+
           for (let proj of projects){
-            this.projects.push(proj);
+            if (proj.status == 1) { //Proyecto abierto
+              this.projects.push(new Project(proj.identifier, proj.name, proj.custom_fields[0].value));
+            }
           }
+          localStorage.setItem(this.lsProjectsProperty, JSON.stringify(this.projects));
         });
+
     }
     return;
   }
 
   private getSecurityString(): string {
-    return `&key=${this._tokeService.getToken()}`;
+    return `&key=${this._tokenService.getToken()}`;
   }
 
   filterProjects(status: number = 1, categories: string[]) {
     return this.projects.filter(project => {
-      if (project.status == status) {
-        if (categories.indexOf(project.custom_fields[0].value) != -1) {
+        if (categories.indexOf(project.type) != -1) {
           return true;
         }
-      }
       return false;
     });
   }
@@ -64,4 +67,19 @@ export class ProjectsService {
   clearList() {
     this.projects = [];
   }
+
+  updateNumberOfProjects() {
+    let limit: number = 1;
+    let offset: number = 1;
+
+    let query = `?offset=${offset}&limit=${limit}`;
+    let url = this.protocolo + this.urlProjects + query + this.getSecurityString() + '&callback=JSONP_CALLBACK';
+
+    return this.jsonp.get(url)
+      .map(res => {
+        localStorage.setItem(this.lsProjectsCountProperty, String(res.json().total_count));
+      });
+  }
+
+
 }

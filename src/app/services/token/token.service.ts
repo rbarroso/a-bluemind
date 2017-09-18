@@ -4,25 +4,26 @@ import { Injectable } from '@angular/core';
 export class TokenService {
 
   token: string = '';
+  lsTokenProperty = 'redmine_token';
 
   constructor() {
   }
 
   hasToken(): boolean {
-    return localStorage.getItem('redmineToken') ? true : false;
+    return localStorage.getItem(this.lsTokenProperty) ? true : false;
   }
 
   guardarToken(token: string) {
-    localStorage.setItem('redmineToken', token);
+    localStorage.setItem(this.lsTokenProperty, token);
   }
 
   eliminarToken() {
-    localStorage.removeItem('redmineToken');
+    localStorage.removeItem(this.lsTokenProperty);
   }
 
   getToken(): string {
     if (this.hasToken()) {
-      return localStorage.getItem('redmineToken');
+      return localStorage.getItem(this.lsTokenProperty);
     }
     return;
   }
