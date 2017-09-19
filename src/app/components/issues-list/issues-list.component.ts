@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../../services/token/token.service';
+import {IssueService} from "../../services/issue/issue.service";
 
 @Component({
   selector: 'app-issues-list',
@@ -8,9 +9,16 @@ import { TokenService } from '../../services/token/token.service';
 })
 export class IssuesListComponent implements OnInit {
 
-  constructor(private _tokenService: TokenService) { }
+  issueList : any[] = [];
+  constructor(private _tokenService: TokenService, private _issueService: IssueService) { }
 
   ngOnInit() {
+    this._issueService.getTareasByStatus().subscribe(data => {
+      for (let issue of data) {
+        this.issueList.push(issue);
+      }
+    });
   }
+
 
 }

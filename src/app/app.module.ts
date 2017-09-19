@@ -9,6 +9,7 @@ import { TokenService } from './services/token/token.service';
 import { ProjectsService } from './services/projects/projects.service';
 import { EventsService } from './services/filter-event/events.service';
 import { UserService } from './services/user/user.service';
+import { IssueService } from './services/issue/issue.service';
 
 // Componentes shared
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
@@ -43,7 +44,7 @@ import { APP_ROUTING } from './app.routes';
     JsonpModule,
     APP_ROUTING
   ],
-  providers: [TokenService, ProjectsService, EventsService, UserService],
+  providers: [TokenService, ProjectsService, EventsService, UserService, IssueService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

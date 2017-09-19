@@ -1,3 +1,10 @@
 <div *ngIf="!_tokenService.hasToken()">
   <app-welcome></app-welcome>
+
 </div>
+<div class="container" *ngIf="_tokenService.hasToken()">
+  <ul>
+    <li *ngFor="let issue of issueList"> {{ issue.subject }}</li>
+  </ul>
+</div>
+
