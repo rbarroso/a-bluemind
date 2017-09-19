@@ -20,6 +20,10 @@ import { ProjectsComponent } from './components/projects/projects.component';
 
 // Rutas
 import { APP_ROUTING } from './app.routes';
+import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { IssuesListComponent } from './components/issues-list/issues-list.component';
+import {UserService} from "./services/user/user.service";
+import { UserInfoComponent } from './components/shared/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,10 @@ import { APP_ROUTING } from './app.routes';
     NavbarComponent,
     ConfiguracionComponent,
     ProjectsComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ProjectDetailComponent,
+    IssuesListComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +43,7 @@ import { APP_ROUTING } from './app.routes';
     JsonpModule,
     APP_ROUTING
   ],
-  providers: [TokenService, ProjectsService, FilterEventService],
+  providers: [TokenService, ProjectsService, FilterEventService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

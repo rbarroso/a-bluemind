@@ -1,16 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { TokenService } from '../../services/token/token.service';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { Project } from '../../models/project';
-import { Observer } from '../../models/observer';
+import { Observer } from '../../models/observer.interface';
 import { FilterEventService } from '../../services/filter-event/filter-event.service';
-
+import { NavbarSearchEvent } from '../../models/navbar-search.event';
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit, Observer {
+export class ProjectsComponent implements OnInit, OnDestroy, Observer {
 
   limit: number = 100;
   offset: number = 1;
@@ -55,13 +55,19 @@ export class ProjectsComponent implements OnInit, Observer {
     }
   }
 
+  ngOnDestroy() {
+    this._filterEventService.unregister(this);
+  }
+
   private loadRemoteProjects() {
     this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe(data => {
       let iterationsNumber = Math.floor(Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) / this.limit);
       for (let i = 1; i <= iterationsNumber; i++) {
         this.offset = i * this.limit;
         this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe( data => this.sliceProjects());
-        // this.sliceProjects();
+      }
+      if (Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) < this.limit) {
+        this.sliceProjects();
       }
     });
   }
@@ -116,13 +122,11 @@ export class ProjectsComponent implements OnInit, Observer {
       this._projectsService.comercialProjectsTypes, this._projectsService.filter);
   }
 
-  onEvent(message: any) {
-    this._projectsService.filter = message;
-    this.sliceProjects();
-  }
-
-  ngOnDestroy() {
-    this._filterEventService.unregister(this);
+  onEvent<NavbarSearchEvent>(event: NavbarSearchEvent) {
+    if (event instanceof NavbarSearchEvent) {
+      this._projectsService.filter = event.filter;
+      this.sliceProjects();
+    }
   }
 
 }

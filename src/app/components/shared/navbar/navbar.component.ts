@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { TokenService } from '../../../services/token/token.service';
-import {FilterEventService} from '../../../services/filter-event/filter-event.service';
+import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
+import {TokenService} from "../../../services/token/token.service";
+import {FilterEventService} from "../../../services/filter-event/filter-event.service";
+import {NavbarSearchEvent} from "../../../models/navbar-search.event";
 
 @Component ({
   selector: 'app-navbar',
@@ -10,13 +11,14 @@ import {FilterEventService} from '../../../services/filter-event/filter-event.se
 
 export class NavbarComponent implements OnInit {
 
-  constructor(private _tokenService: TokenService, private _filterEventService: FilterEventService) {}
+  constructor(private _tokenService: TokenService, private _filterEventService: FilterEventService ) {}
 
   ngOnInit() {
   }
 
   search(filter: string) {
-    this._filterEventService.publish(filter);
+    let event = new NavbarSearchEvent(filter);
+    this._filterEventService.publish(event);
   }
 
 }

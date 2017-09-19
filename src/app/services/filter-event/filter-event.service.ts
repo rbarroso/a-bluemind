@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observer } from '../../models/observer';
+import { Observer } from '../../models/observer.interface';
 
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FilterEventService {
     }
   }
 
-  publish(message: any) {
+  publish(message?: any) {
     for (let observer of this.observers) {
       observer.onEvent(message);
     }

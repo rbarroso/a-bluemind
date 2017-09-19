@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <span *ngIf="!_tokenService.hasToken()"
+            class="badge badge-pill badge-danger float-right mt-2 animated fade fadeIn">Sin token</span>
+      <span *ngIf="_tokenService.getRedmineUserId() && userInfo"
+            class="badge badge-pill badge-primary float-right mt-2 animated fade fadeIn"> {{ userInfo }}</span>
+    </div>
+  </div>
+</div>

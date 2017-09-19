@@ -43,7 +43,7 @@ export class ProjectsService {
 
           for (let proj of projects){
             if (proj.status == 1) { //Proyecto abierto
-              this.projects.push(new Project(proj.identifier, proj.name, proj.custom_fields[0].value));
+              this.projects.push(new Project(proj.identifier, proj.id, proj.name, proj.custom_fields[0].value));
             }
           }
           localStorage.setItem(this.lsProjectsProperty, JSON.stringify(this.projects));

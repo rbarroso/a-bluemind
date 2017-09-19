@@ -8,17 +8,18 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/projects']">Proyectos</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/issues']">Peticiones</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/config']">Configuración</a>
       </li>
     </ul>
-
     <form class="form-inline my-2 my-lg-0">
       <input #searchInput class="form-control mr-sm-2"
              type="text" placeholder="#issues, projects..." aria-label="Buscar"
@@ -28,13 +29,4 @@
 
   </div>
 </nav>
-
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <span *ngIf="_tokenService.hasToken()"
-        class="badge badge-pill badge-success float-right mt-2">Great!</span>
-      <span *ngIf="!_tokenService.hasToken()"
-        class="badge badge-pill badge-danger float-right mt-2">Sin token</span>
-    </div>
-</div>
+<app-user-info></app-user-info>

@@ -1,3 +1,3 @@
 export interface Observer {
-  onEvent(message: any);
+  onEvent<T>(event: T);
 }
