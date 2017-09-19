@@ -3,7 +3,7 @@ import { Observer } from '../../models/observer.interface';
 
 
 @Injectable()
-export class FilterEventService {
+export class EventsService {
 
   private observers: Observer[] = [];
 

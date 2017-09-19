@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../../services/token/token.service';
 import { Router } from '@angular/router';
-import {FilterEventService} from "../../services/filter-event/filter-event.service";
+import { EventsService } from "../../services/filter-event/events.service";
 import {UserInfoEvent} from "../../models/user-info.event";
 
 @Component({
@@ -15,7 +15,7 @@ export class ConfiguracionComponent implements OnInit {
   verToken: boolean = false;
 
   constructor(private _tokenService: TokenService, private _router: Router,
-              private _filterEventService : FilterEventService) { }
+              private _eventsService : EventsService) { }
 
   ngOnInit() {
     this.token = this._tokenService.getToken();
@@ -26,7 +26,7 @@ export class ConfiguracionComponent implements OnInit {
       this._tokenService.setToken(this.token);
       this._router.navigate(['/projects']);
       let event = new UserInfoEvent();
-      this._filterEventService.publish(event);
+      this._eventsService.publish(event);
     }
   }
 

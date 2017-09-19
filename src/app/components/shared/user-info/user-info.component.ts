@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observer } from '../../../models/observer.interface';
 import { TokenService } from '../../../services/token/token.service';
-import { FilterEventService } from '../../../services/filter-event/filter-event.service';
+import { EventsService } from '../../../services/filter-event/events.service';
 import { UserService } from '../../../services/user/user.service';
 import { UserInfoEvent } from '../../../models/user-info.event';
 
@@ -15,16 +15,16 @@ export class UserInfoComponent implements OnInit, OnDestroy, Observer {
   userInfo: string = '';
 
   constructor(private _tokenService: TokenService,
-              private _filterEventService: FilterEventService,
+              private _eventsService: EventsService,
               private _userService : UserService) {}
 
   ngOnInit() {
     this.getUserInfo();
-    this._filterEventService.register(this);
+    this._eventsService.register(this);
   }
 
   ngOnDestroy() {
-    this._filterEventService.unregister(this);
+    this._eventsService.unregister(this);
   }
 
   getUserInfo() {

@@ -3,8 +3,9 @@ import { TokenService } from '../../services/token/token.service';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { Project } from '../../models/project';
 import { Observer } from '../../models/observer.interface';
-import { FilterEventService } from '../../services/filter-event/filter-event.service';
+import { EventsService } from '../../services/filter-event/events.service';
 import { NavbarSearchEvent } from '../../models/navbar-search.event';
+
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
@@ -28,12 +29,12 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
 
   constructor(private _tokenService: TokenService,
               private _projectsService: ProjectsService,
-              private _filterEventService: FilterEventService) {
+              private _eventsService: EventsService) {
   }
 
   ngOnInit() {
 
-    this._filterEventService.register(this);
+    this._eventsService.register(this);
     this._projectsService.clearList();
 
     if (this._tokenService.hasToken()) {
@@ -56,7 +57,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
   }
 
   ngOnDestroy() {
-    this._filterEventService.unregister(this);
+    this._eventsService.unregister(this);
   }
 
   private loadRemoteProjects() {
