@@ -25,6 +25,7 @@ import { IssuesListComponent } from './components/issues-list/issues-list.compon
 
 // Rutas
 import { APP_ROUTING } from './app.routes';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { APP_ROUTING } from './app.routes';
     WelcomeComponent,
     ProjectDetailComponent,
     IssuesListComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

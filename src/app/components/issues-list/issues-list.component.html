@@ -4,7 +4,15 @@
 </div>
 <div class="container" *ngIf="_tokenService.hasToken()">
   <ul>
-    <li *ngFor="let issue of issueList"> {{ issue.subject }}</li>
+    <li *ngFor="let issue of issues | async | filter: {subject:'Investigar y documentar las tareas'} ">
+      {{ issue.subject }} -- {{ issue.project.name }}
+    </li>
+    <li *ngFor="let issue of issues | async">
+      {{ issue.subject }} -- {{ issue.project.name }}
+    </li>
+    <li *ngFor="let issue of issues | async">
+      {{ issue | json}}
+    </li>
   </ul>
 </div>
 

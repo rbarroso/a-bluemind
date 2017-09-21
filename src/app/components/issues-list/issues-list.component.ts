@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../../services/token/token.service';
 import {IssueService} from "../../services/issue/issue.service";
+import {Observable} from 'rxjs/Observable';
+import {Issue} from '../../models/issue';
 
 @Component({
   selector: 'app-issues-list',
@@ -9,16 +11,16 @@ import {IssueService} from "../../services/issue/issue.service";
 })
 export class IssuesListComponent implements OnInit {
 
-  issueList : any[] = [];
+  issues: Observable<Issue[]>;
+
   constructor(private _tokenService: TokenService, private _issueService: IssueService) { }
 
   ngOnInit() {
-    this._issueService.getTareasByStatus().subscribe(data => {
-      for (let issue of data) {
-        this.issueList.push(issue);
-      }
-    });
+    this.getIssues();
   }
 
+  getIssues(): void {
+    this.issues = this._issueService.getTareasByStatus();
+  }
 
 }
