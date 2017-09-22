@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpModule, JsonpModule} from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { NgModule } from '@angular/core';
@@ -25,7 +25,7 @@ import { IssuesListComponent } from './components/issues-list/issues-list.compon
 
 // Rutas
 import { APP_ROUTING } from './app.routes';
-import { FilterPipe } from './pipes/filter.pipe';
+import { IssuesByProjectNamePipe } from './pipes/issues-by-project-name.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     ProjectDetailComponent,
     IssuesListComponent,
     UserInfoComponent,
-    FilterPipe
+    IssuesByProjectNamePipe
   ],
   imports: [
     BrowserModule,

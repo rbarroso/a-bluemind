@@ -12,7 +12,8 @@ import {Issue} from '../../models/issue';
 export class IssuesListComponent implements OnInit {
 
   issues: Observable<Issue[]>;
-
+  projectsName: string[] = [];
+  issuesA: Issue[] = [];
   constructor(private _tokenService: TokenService, private _issueService: IssueService) { }
 
   ngOnInit() {
@@ -21,6 +22,10 @@ export class IssuesListComponent implements OnInit {
 
   getIssues(): void {
     this.issues = this._issueService.getTareasByStatus();
+    this.issues.subscribe(items => {
+      this.issuesA = items;
+      this.projectsName = Array.from(new Set(items.map(item => item.project.name)));
+    });
   }
 
 }
