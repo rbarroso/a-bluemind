@@ -3,6 +3,9 @@ import { Http, Jsonp } from '@angular/http';
 import { TokenService } from '../token/token.service';
 import 'rxjs/add/operator/map';
 import { Project } from '../../models/index';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
+
 
 @Injectable()
 export class ProjectsService {
@@ -13,7 +16,7 @@ export class ProjectsService {
   internalProjectsTypes: string[] = ['Gestión Interna', 'Interno'];
   estructuralProjectsTypes: string[] = ['Estructural'];
 
-  projects: Project[] = [];
+  // projects: Project[] = [];
 
   lsProjectsCountProperty = 'redmine_projects_number';
   lsProjectsProperty = 'redmine_projects';
@@ -24,34 +27,6 @@ export class ProjectsService {
   filter: string = '';
 
   constructor(private http: Http, private jsonp: Jsonp, private _tokenService: TokenService) {}
-
-  getLocalProjects() {
-    this.projects = JSON.parse(localStorage.getItem(this.lsProjectsProperty));
-  }
-
-  getRemoteProjects(limit: number = 10, offset: number = 1) {
-    if (this._tokenService.hasToken()) {
-
-      let query = `?offset=${offset}&limit=${limit}`;
-      let url = this.protocolo + this.urlProjects + query + this.getSecurityString() + '&callback=JSONP_CALLBACK';
-
-      return this.jsonp.get(url)
-        .map(res => {
-
-          localStorage.setItem(this.lsProjectsCountProperty, String(res.json().total_count));
-          let projects: any[] = res.json().projects;
-
-          for (let proj of projects){
-            if (proj.status == 1) { //Proyecto abierto
-              this.projects.push(new Project(proj.identifier, proj.id, proj.name, proj.custom_fields[0].value));
-            }
-          }
-          localStorage.setItem(this.lsProjectsProperty, JSON.stringify(this.projects));
-        });
-
-    }
-    return;
-  }
 
   private getSecurityString(): string {
     return `&key=${this._tokenService.getToken()}`;
@@ -87,5 +62,44 @@ export class ProjectsService {
     this.projects = [];
   }
 
+  getActiveProjects(): Observable<Project[]> {
+
+    if (localStorage.getItem(this.lsProjectsProperty)) {
+      return Observable.create(data => JSON.parse(localStorage.getItem(this.lsProjectsProperty)));
+    }
+
+
+    return this.updateNumberOfProjects().map(data => {
+
+      let projectsAA: Project[] = [];
+      let peticiones: Observable<any>[] = [];
+
+      let numberProjects: string = localStorage.getItem(this.lsProjectsCountProperty);
+      let iterationsNumber = Math.floor(Number(numberProjects) / 100) + 1;
+
+      console.log(iterationsNumber);
+
+      for (let i = 1; i <= iterationsNumber; i++) {
+        let offset = (i-1) * 100;
+
+        let peticion: Observable<any> = this.http.get(this.protocolo + this.urlProjects + `?offset=${offset}&limit=${100}` +
+          this.getSecurityString()).map(res => res.json());
+        peticiones.push(peticion);
+      }
+
+      Observable.forkJoin(peticiones).subscribe(results => {
+        for (let i = 0; i < results.length; i++) {
+          results[i].projects.map(item => {
+            if (item.status == 1){
+              projectsAA.push(item);
+            }
+          });
+        }
+      });
+
+      return projectsAA;
+    });
+
+  }
 
 }

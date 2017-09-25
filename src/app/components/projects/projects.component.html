@@ -1,8 +1,19 @@
 <div *ngIf="!_tokenService.hasToken()">
   <app-welcome></app-welcome>
 </div>
+
+
+<div class="container">
+  <ul>
+    <li *ngFor="let p of proBla | async; let i = index" > {{i + 1}} - {{ p.name }}</li>
+  </ul>
+</div>
+
 <div class="container animated fade fadeIn fast"
-     *ngIf="_tokenService.hasToken() && _projectsService.projects.length > 0">
+     *ngIf="_tokenService.hasToken()">
+
+
+
   <div class="row">
     <!--PRODUCCION-->
     <div class="col">

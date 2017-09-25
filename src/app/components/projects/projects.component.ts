@@ -5,6 +5,7 @@ import { Project } from '../../models/project';
 import { Observer } from '../../models/observer.interface';
 import { EventsService } from '../../services/filter-event/events.service';
 import { NavbarSearchEvent } from '../../models/navbar-search.event';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-projects',
@@ -32,28 +33,37 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
               private _eventsService: EventsService) {
   }
 
+  proBla: Observable<Project[]>;
+
   ngOnInit() {
 
     this._eventsService.register(this);
     this._projectsService.clearList();
 
-    if (this._tokenService.hasToken()) {
-      if (localStorage.getItem(this._projectsService.lsProjectsProperty)) {
-        const actualNumberOfProjects = !localStorage.getItem(this._projectsService.lsProjectsCountProperty) ? 0 :
-          localStorage.getItem(this._projectsService.lsProjectsCountProperty);
-        this._projectsService.updateNumberOfProjects().subscribe(data => {
-          const updatedNumberOfProjects = localStorage.getItem(this._projectsService.lsProjectsCountProperty);
-          if (actualNumberOfProjects == updatedNumberOfProjects) {
-            this._projectsService.getLocalProjects();
-            this.sliceProjects();
-          } else {
-            this.loadRemoteProjects();
-          }
-        });
-      } else {
-        this.loadRemoteProjects();
-      }
-    }
+
+    this.proBla = this._projectsService.getActiveProjects().map(data => {
+      console.log(data);
+      return data;
+    });
+    this.sliceProjects();
+
+    // if (this._tokenService.hasToken()) {
+    //   if (localStorage.getItem(this._projectsService.lsProjectsProperty)) {
+    //     const actualNumberOfProjects = !localStorage.getItem(this._projectsService.lsProjectsCountProperty) ? 0 :
+    //       localStorage.getItem(this._projectsService.lsProjectsCountProperty);
+    //     this._projectsService.updateNumberOfProjects().subscribe(data => {
+    //       const updatedNumberOfProjects = localStorage.getItem(this._projectsService.lsProjectsCountProperty);
+    //       if (actualNumberOfProjects == updatedNumberOfProjects) {
+    //         this._projectsService.getLocalProjects();
+    //         this.sliceProjects();
+    //       } else {
+    //         this.loadRemoteProjects();
+    //       }
+    //     });
+    //   } else {
+    //     this.loadRemoteProjects();
+    //   }
+    // }
   }
 
   ngOnDestroy() {
@@ -61,16 +71,16 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
   }
 
   private loadRemoteProjects() {
-    this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe(data => {
-      let iterationsNumber = Math.floor(Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) / this.limit);
-      for (let i = 1; i <= iterationsNumber; i++) {
-        this.offset = i * this.limit;
-        this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe( data => this.sliceProjects());
-      }
-      if (Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) < this.limit) {
-        this.sliceProjects();
-      }
-    });
+    // this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe(data => {
+    //   let iterationsNumber = Math.floor(Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) / this.limit);
+    //   for (let i = 1; i <= iterationsNumber; i++) {
+    //     this.offset = i * this.limit;
+    //     this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe( data => this.sliceProjects());
+    //   }
+    //   if (Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) < this.limit) {
+    //     this.sliceProjects();
+    //   }
+    // });
   }
 
   private changeSlice(buttonName: number): void {

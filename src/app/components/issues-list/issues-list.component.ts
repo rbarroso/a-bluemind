@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TokenService } from '../../services/token/token.service';
+import {Component, OnInit} from '@angular/core';
+import {TokenService} from '../../services/token/token.service';
 import {IssueService} from "../../services/issue/issue.service";
 import {Observable} from 'rxjs/Observable';
 import {Issue} from '../../models/issue';
@@ -14,7 +14,9 @@ export class IssuesListComponent implements OnInit {
   issues: Observable<Issue[]>;
   projectsName: string[] = [];
   issuesA: Issue[] = [];
-  constructor(private _tokenService: TokenService, private _issueService: IssueService) { }
+
+  constructor(private _tokenService: TokenService, private _issueService: IssueService) {
+  }
 
   ngOnInit() {
     this.getIssues();
@@ -24,7 +26,10 @@ export class IssuesListComponent implements OnInit {
     this.issues = this._issueService.getTareasByStatus();
     this.issues.subscribe(items => {
       this.issuesA = items;
-      this.projectsName = Array.from(new Set(items.map(item => item.project.name)));
+      this.projectsName = Array.from(new Set(items.map(item => {
+          return item.project.name;
+        }
+      )));
     });
   }
 
