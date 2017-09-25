@@ -6,6 +6,10 @@ import { Observer } from '../../models/observer.interface';
 import { EventsService } from '../../services/filter-event/events.service';
 import { NavbarSearchEvent } from '../../models/navbar-search.event';
 import {Observable} from "rxjs/Observable";
+import {
+  PROJECT_TYPES_COMERCIAL, PROJECT_TYPES_ESTRUCTURAL, PROJECT_TYPES_INTERNAL,
+  PROJECT_TYPES_PROD
+} from '../../constants';
 
 @Component({
   selector: 'app-projects',
@@ -33,58 +37,25 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
               private _eventsService: EventsService) {
   }
 
-  proBla: Observable<Project[]>;
+  proj: Project[];
+  projects: Observable<Project[]>;
 
   ngOnInit() {
-
     this._eventsService.register(this);
-    this._projectsService.clearList();
-
-
-    this.proBla = this._projectsService.getActiveProjects().map(data => {
+    this._projectsService.getActiveProjects().subscribe(data => {
       console.log(data);
-      return data;
+      this.proj = data;
+      this.sliceProjects();
     });
-    this.sliceProjects();
-
-    // if (this._tokenService.hasToken()) {
-    //   if (localStorage.getItem(this._projectsService.lsProjectsProperty)) {
-    //     const actualNumberOfProjects = !localStorage.getItem(this._projectsService.lsProjectsCountProperty) ? 0 :
-    //       localStorage.getItem(this._projectsService.lsProjectsCountProperty);
-    //     this._projectsService.updateNumberOfProjects().subscribe(data => {
-    //       const updatedNumberOfProjects = localStorage.getItem(this._projectsService.lsProjectsCountProperty);
-    //       if (actualNumberOfProjects == updatedNumberOfProjects) {
-    //         this._projectsService.getLocalProjects();
-    //         this.sliceProjects();
-    //       } else {
-    //         this.loadRemoteProjects();
-    //       }
-    //     });
-    //   } else {
-    //     this.loadRemoteProjects();
-    //   }
-    // }
   }
 
   ngOnDestroy() {
     this._eventsService.unregister(this);
   }
 
-  private loadRemoteProjects() {
-    // this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe(data => {
-    //   let iterationsNumber = Math.floor(Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) / this.limit);
-    //   for (let i = 1; i <= iterationsNumber; i++) {
-    //     this.offset = i * this.limit;
-    //     this._projectsService.getRemoteProjects(this.limit, this.offset).subscribe( data => this.sliceProjects());
-    //   }
-    //   if (Number(localStorage.getItem(this._projectsService.lsProjectsCountProperty)) < this.limit) {
-    //     this.sliceProjects();
-    //   }
-    // });
-  }
 
   private changeSlice(buttonName: number): void {
-    switch (buttonName) {
+   /* switch (buttonName) {
       case 1:
         if (this.productionSlice > this.minimunSlice) {
           this.productionSlice = this.minimunSlice;
@@ -119,18 +90,18 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
         break;
       default:
         break;
-    }
+    }*/
   }
 
   private sliceProjects() {
-    this.productionProjects = this._projectsService.filterProjects(
-      this._projectsService.productionProjectsTypes, this._projectsService.filter);
-    this.estructuralProjects = this._projectsService.filterProjects(
-      this._projectsService.estructuralProjectsTypes, this._projectsService.filter);
-    this.internalProjects = this._projectsService.filterProjects(
-      this._projectsService.internalProjectsTypes, this._projectsService.filter);
-    this.comercialProjects = this._projectsService.filterProjects(
-      this._projectsService.comercialProjectsTypes, this._projectsService.filter);
+    this.productionProjects = this._projectsService.filterProjects(this.proj,
+      PROJECT_TYPES_PROD, this._projectsService.filter);
+    this.estructuralProjects = this._projectsService.filterProjects(this.proj,
+      PROJECT_TYPES_ESTRUCTURAL, this._projectsService.filter);
+    this.internalProjects = this._projectsService.filterProjects(this.proj,
+      PROJECT_TYPES_INTERNAL, this._projectsService.filter);
+    this.comercialProjects = this._projectsService.filterProjects(this.proj,
+      PROJECT_TYPES_COMERCIAL, this._projectsService.filter);
   }
 
   onEvent<NavbarSearchEvent>(event: NavbarSearchEvent) {
