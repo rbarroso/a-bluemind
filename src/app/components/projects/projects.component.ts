@@ -11,6 +11,7 @@ import {
   PROJECT_TYPES_PROD
 } from '../../constants';
 import { Router } from '@angular/router';
+import {ForceNavbarSearchEvent} from "../../models/force-navbar-search.event";
 
 @Component({
   selector: 'app-projects',
@@ -51,6 +52,9 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
       this._projectsService.getActiveProjects().subscribe(data => {
         this.projects = data;
         this.sliceProjects();
+
+        let event = new ForceNavbarSearchEvent();
+        this._eventsService.publish(event);
       });
     }
   }
@@ -60,6 +64,8 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
   }
 
   private changeSlice(slice: number, projectTypes: string[]): number {
+    let event = new ForceNavbarSearchEvent();
+    this._eventsService.publish(event);
     if (slice > this.minimunSlice) {
       return this.minimunSlice;
     } else {

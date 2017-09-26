@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ForceNavbarSearchEvent} from "../../models/force-navbar-search.event";
+import {EventsService} from "../../services/filter-event/events.service";
 
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
-  styleUrls: ['./project-detail.component.css']
+  styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent implements OnInit {
 
@@ -12,11 +14,12 @@ export class ProjectDetailComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(params => {
-      console.log(params);
+      this.redmine_id = params.redmineId;
     });
   }
 
   ngOnInit() {
+    console.log(this.redmine_id);
   }
 
 }
