@@ -7,7 +7,7 @@ import {IssuesListComponent} from './components/issues-list/issues-list.componen
 const APP_ROUTES: Routes = [
   { path: 'issues', component: IssuesListComponent },
   { path: 'projects', component: ProjectsComponent },
-  { path: 'projects/detail', component: ProjectDetailComponent },
+  { path: 'projects/detail/:redmineId', component: ProjectDetailComponent },
   { path: 'config', component: ConfiguracionComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'projects' }
 ];

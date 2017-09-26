@@ -1,12 +1,12 @@
 export class Project {
   id: string;
-  redime_id: number;
+  redmine_id: number;
   name: string;
   type: string;
 
-  constructor( id: string, redime_id: number, name: string, type: string) {
+  constructor( id: string, redmine_id: number, name: string, type: string) {
     this.id = id;
-    this.redime_id = redime_id;
+    this.redmine_id = redmine_id;
     this.name = name;
     this.type = type;
   }

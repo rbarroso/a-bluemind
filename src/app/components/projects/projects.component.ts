@@ -1,15 +1,16 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {TokenService} from '../../services/token/token.service';
-import {ProjectsService} from '../../services/projects/projects.service';
-import {Project} from '../../models/project';
-import {Observer} from '../../models/observer.interface';
-import {EventsService} from '../../services/filter-event/events.service';
-import {NavbarSearchEvent} from '../../models/navbar-search.event';
-import {Observable} from "rxjs/Observable";
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { TokenService } from '../../services/token/token.service';
+import { ProjectsService } from '../../services/projects/projects.service';
+import { Project } from '../../models/project';
+import { Observer } from '../../models/observer.interface';
+import { EventsService } from '../../services/filter-event/events.service';
+import { NavbarSearchEvent } from '../../models/navbar-search.event';
+import { Observable } from "rxjs/Observable";
 import {
   PROJECT_TYPES_COMERCIAL, PROJECT_TYPES_ESTRUCTURAL, PROJECT_TYPES_INTERNAL,
   PROJECT_TYPES_PROD
 } from '../../constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -17,6 +18,12 @@ import {
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit, OnDestroy, Observer {
+
+  constructor(private _tokenService: TokenService,
+              private _projectsService: ProjectsService,
+              private _eventsService: EventsService,
+              private router: Router) {
+  }
 
   get projectTypesProd() { return PROJECT_TYPES_PROD; }
   get projectTypesEstructural() { return PROJECT_TYPES_ESTRUCTURAL; }
@@ -35,12 +42,6 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
   comercialSlice: number = this.minimunSlice;
 
   filter: string = '';
-
-  constructor(private _tokenService: TokenService,
-              private _projectsService: ProjectsService,
-              private _eventsService: EventsService) {
-  }
-
   projects: Project[];
 
   ngOnInit() {
@@ -82,6 +83,10 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
       this.filter = event.filter;
       this.sliceProjects();
     }
+  }
+
+  goToDetail(redmine_id: number) {
+    this.router.navigate(['/projects/detail', redmine_id]);
   }
 
 }

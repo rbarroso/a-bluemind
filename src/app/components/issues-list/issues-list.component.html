@@ -2,6 +2,9 @@
   <app-welcome></app-welcome>
 
 </div>
+
+<app-loader *ngIf="_tokenService.hasToken() && issuesA.length == 0"></app-loader>
+
 <div class="container" *ngIf="_tokenService.hasToken()">
 
     <ul *ngFor="let project of projectsName">
