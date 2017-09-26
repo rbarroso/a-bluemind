@@ -26,6 +26,7 @@ import { IssuesListComponent } from './components/issues-list/issues-list.compon
 // Rutas
 import { APP_ROUTING } from './app.routes';
 import { IssuesByProjectNamePipe } from './pipes/issues-by-project-name.pipe';
+import { LoaderComponent } from './components/shared/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { IssuesByProjectNamePipe } from './pipes/issues-by-project-name.pipe';
     ProjectDetailComponent,
     IssuesListComponent,
     UserInfoComponent,
-    IssuesByProjectNamePipe
+    IssuesByProjectNamePipe,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

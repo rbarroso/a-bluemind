@@ -1,10 +1,10 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { TokenService } from '../../services/token/token.service';
-import { ProjectsService } from '../../services/projects/projects.service';
-import { Project } from '../../models/project';
-import { Observer } from '../../models/observer.interface';
-import { EventsService } from '../../services/filter-event/events.service';
-import { NavbarSearchEvent } from '../../models/navbar-search.event';
+import {TokenService} from '../../services/token/token.service';
+import {ProjectsService} from '../../services/projects/projects.service';
+import {Project} from '../../models/project';
+import {Observer} from '../../models/observer.interface';
+import {EventsService} from '../../services/filter-event/events.service';
+import {NavbarSearchEvent} from '../../models/navbar-search.event';
 import {Observable} from "rxjs/Observable";
 import {
   PROJECT_TYPES_COMERCIAL, PROJECT_TYPES_ESTRUCTURAL, PROJECT_TYPES_INTERNAL,
@@ -18,8 +18,10 @@ import {
 })
 export class ProjectsComponent implements OnInit, OnDestroy, Observer {
 
-  limit: number = 100;
-  offset: number = 1;
+  get projectTypesProd() { return PROJECT_TYPES_PROD; }
+  get projectTypesEstructural() { return PROJECT_TYPES_ESTRUCTURAL; }
+  get projectTypesInternal() { return PROJECT_TYPES_INTERNAL; }
+  get projectTypesComercial() { return PROJECT_TYPES_COMERCIAL; }
 
   productionProjects: Project[] = [];
   estructuralProjects: Project[] = [];
@@ -32,81 +34,52 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
   internalSlice: number = this.minimunSlice;
   comercialSlice: number = this.minimunSlice;
 
+  filter: string = '';
+
   constructor(private _tokenService: TokenService,
               private _projectsService: ProjectsService,
               private _eventsService: EventsService) {
   }
 
-  proj: Project[];
-  projects: Observable<Project[]>;
+  projects: Project[];
 
   ngOnInit() {
     this._eventsService.register(this);
-    this._projectsService.getActiveProjects().subscribe(data => {
-      console.log(data);
-      this.proj = data;
-      this.sliceProjects();
-    });
+
+    if (this._tokenService.hasToken()) {
+      this._projectsService.getActiveProjects().subscribe(data => {
+        this.projects = data;
+        this.sliceProjects();
+      });
+    }
   }
 
   ngOnDestroy() {
     this._eventsService.unregister(this);
   }
 
-
-  private changeSlice(buttonName: number): void {
-   /* switch (buttonName) {
-      case 1:
-        if (this.productionSlice > this.minimunSlice) {
-          this.productionSlice = this.minimunSlice;
-        } else {
-          this.productionSlice = this._projectsService.filterProjects(
-            this._projectsService.productionProjectsTypes, this._projectsService.filter).length;
-        }
-        break;
-      case 2:
-        if (this.estructuralSlice > this.minimunSlice) {
-          this.estructuralSlice = this.minimunSlice;
-        } else {
-          this.estructuralSlice = this._projectsService.filterProjects(
-            this._projectsService.estructuralProjectsTypes, this._projectsService.filter).length;
-        }
-        break;
-      case 3:
-        if (this.internalSlice > this.minimunSlice) {
-          this.internalSlice = this.minimunSlice;
-        } else {
-          this.internalSlice = this._projectsService.filterProjects(
-            this._projectsService.internalProjectsTypes, this._projectsService.filter).length;
-        }
-        break;
-      case 4:
-        if (this.comercialSlice > this.minimunSlice) {
-          this.comercialSlice = this.minimunSlice;
-        } else {
-          this.comercialSlice = this._projectsService.filterProjects(
-            this._projectsService.comercialProjectsTypes, this._projectsService.filter).length;
-        }
-        break;
-      default:
-        break;
-    }*/
+  private changeSlice(slice: number, projectTypes: string[]): number {
+    if (slice > this.minimunSlice) {
+      return this.minimunSlice;
+    } else {
+      return this._projectsService.filterProjects(this.projects, projectTypes, this.filter).length;
+    }
   }
 
   private sliceProjects() {
-    this.productionProjects = this._projectsService.filterProjects(this.proj,
-      PROJECT_TYPES_PROD, this._projectsService.filter);
-    this.estructuralProjects = this._projectsService.filterProjects(this.proj,
-      PROJECT_TYPES_ESTRUCTURAL, this._projectsService.filter);
-    this.internalProjects = this._projectsService.filterProjects(this.proj,
-      PROJECT_TYPES_INTERNAL, this._projectsService.filter);
-    this.comercialProjects = this._projectsService.filterProjects(this.proj,
-      PROJECT_TYPES_COMERCIAL, this._projectsService.filter);
+    this.productionProjects = this._projectsService.filterProjects(this.projects,
+      PROJECT_TYPES_PROD, this.filter);
+    this.estructuralProjects = this._projectsService.filterProjects(this.projects,
+      PROJECT_TYPES_ESTRUCTURAL, this.filter);
+    this.internalProjects = this._projectsService.filterProjects(this.projects,
+      PROJECT_TYPES_INTERNAL, this.filter);
+    this.comercialProjects = this._projectsService.filterProjects(this.projects,
+      PROJECT_TYPES_COMERCIAL, this.filter);
   }
 
   onEvent<NavbarSearchEvent>(event: NavbarSearchEvent) {
     if (event instanceof NavbarSearchEvent) {
-      this._projectsService.filter = event.filter;
+      this.filter = event.filter;
       this.sliceProjects();
     }
   }

@@ -2,18 +2,20 @@
   <app-welcome></app-welcome>
 </div>
 
+<app-loader *ngIf="_tokenService.hasToken() && !projects"></app-loader>
+
 <div class="container animated fade fadeIn fast"
-     *ngIf="_tokenService.hasToken()">
+     *ngIf="_tokenService.hasToken() && projects && projects.length > 0">
 
   <div class="row">
     <!--PRODUCCION-->
     <div class="col">
       <h2>Producción
-        <i (click)="changeSlice(1)"
+        <i (click)="productionSlice = changeSlice(productionSlice, projectTypesProd)"
            *ngIf="productionProjects.length > productionSlice"
            class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver todos los proyectos"></i>
-        <i (click)="changeSlice(1)"
+        <i (click)="productionSlice = changeSlice(productionSlice, projectTypesProd)"
            *ngIf="productionProjects.length == productionSlice && productionProjects.length > minimunSlice"
            class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver menos proyectos"></i>
@@ -33,11 +35,11 @@
     <!--ESTRUCTURAL-->
     <div class="col">
       <h2>Estructural
-        <i (click)="changeSlice(2)"
+        <i (click)="estructuralSlice = changeSlice(estructuralSlice, projectTypesEstructural)"
            *ngIf="estructuralProjects.length > estructuralSlice"
            class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver todos los proyectos"></i>
-        <i (click)="changeSlice(2)"
+        <i (click)="estructuralSlice = changeSlice(estructuralSlice, projectTypesEstructural)"
            *ngIf="estructuralProjects.length == estructuralSlice && estructuralProjects.length > minimunSlice"
            class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver menos proyectos"></i>
@@ -58,11 +60,11 @@
     <!--INTERNO-->
     <div class="col mt-2">
       <h2>Interno
-        <i (click)="changeSlice(3)"
+        <i (click)="internalSlice = changeSlice(internalSlice, projectTypesInternal)"
            *ngIf="internalProjects.length > internalSlice"
            class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver todos los proyectos"></i>
-        <i (click)="changeSlice(3)"
+        <i (click)="internalSlice = changeSlice(internalSlice, projectTypesInternal)"
            *ngIf="internalProjects.length == internalSlice && internalProjects.length > minimunSlice"
            class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver menos proyectos"></i>
@@ -82,11 +84,11 @@
     <!--COMERCIAL-->
     <div class="col mt-2">
       <h2>Comercial
-        <i (click)="changeSlice(4)"
+        <i (click)="comercialSlice = changeSlice(comercialSlice, projectTypesComercial)"
            *ngIf="comercialProjects.length > comercialSlice"
            class="fa fa-plus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver todos los proyectos"></i>
-        <i (click)="changeSlice(4)"
+        <i (click)="comercialSlice = changeSlice(comercialSlice, projectTypesComercial)"
            *ngIf="comercialProjects.length == comercialSlice && comercialProjects.length > minimunSlice"
            class="fa fa-minus-square-o clickableAwesomeFont animated fade fadeIn fast"
            aria-hidden="true" title="Ver menos proyectos"></i>
