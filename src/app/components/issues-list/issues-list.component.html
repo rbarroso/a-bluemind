@@ -3,8 +3,20 @@
 
 </div>
 <div class="container" *ngIf="_tokenService.hasToken()">
-  <ul>
-    <li *ngFor="let issue of issueList"> {{ issue.subject }}</li>
-  </ul>
+
+    <ul *ngFor="let project of projectsName">
+
+      <h3> {{ project}}</h3>
+      <li *ngFor="let issue of issuesA | issuesByProjectName:project">
+        {{ issue.subject }}
+      </li>
+    </ul>
+
+    <!--<li *ngFor="let issue of issues | async">-->
+      <!--{{ issue.subject }} &#45;&#45; {{ issue.project.name }}-->
+    <!--</li>-->
+    <!--<li *ngFor="let issue of issues | async | issuesByProjectName:'0000-0009FrameworkJava2016SDOS' ">-->
+      <!--{{ issue | json }}-->
+    <!--</li>-->
 </div>
 
