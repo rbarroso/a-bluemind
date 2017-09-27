@@ -1,14 +1,28 @@
-<div class="container">
-  <div class="row my-4">
-    <div class="col-md-4">
-      <button type="button" class="btn btn-outline-info btn-block" [routerLink]="['/projects']">Volver</button>
+<app-loader *ngIf="!project"></app-loader>
+<div *ngIf="project" class="container">
+
+  <div class="row my-2 mt-5">
+    <div class="col-md-8">
+      <h3 *ngIf="project">{{ project.name }}</h3>
     </div>
     <div class="col-md-4">
-      <button type="button" class="btn btn-outline-warning btn-block">Ver en redmine</button>
+      <button type="button" class="btn btn-lg btn-outline-info" [routerLink]="['/projects']">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</button>
+      <button type="button" class="btn btn-lg btn-outline-warning" (click)="openRedmine()">Ver en redmine</button>
     </div>
-    <div class="col-md-2">
+
+
+
+
+  </div>
+  <hr>
+
+  <!--<div class="row my-4">
+    <div class="col-md-6">
       <button type="button" class="btn btn-success">Guardar imputaciones</button>
     </div>
-    <div class="col-md-2"><button type="button" class="btn btn-danger">Limpiar imputaciones</button></div>
-  </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-danger">Limpiar imputaciones</button>
+    </div>
+  </div>-->
 </div>

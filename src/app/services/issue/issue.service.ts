@@ -18,7 +18,6 @@ export class IssueService {
   }
 
   getTareasByStatus(): Observable<Issue[]> {
-
     const url = `${this.protocolo}${this.urlIssueRS}${this.getSecurityString(this._tokenService.getToken())}` +
       `&tracker_id=2&limit=100&assigned_to_id=71&status_id=2&sort=project`;
     return this.http.get(url).map(res => {

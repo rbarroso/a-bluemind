@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ForceNavbarSearchEvent} from "../../models/force-navbar-search.event";
-import {EventsService} from "../../services/filter-event/events.service";
+import { ActivatedRoute } from "@angular/router";
+import { Project } from '../../models/project';
+import {DataService} from '../../services/data/data.service';
+import {ProjectsService} from '../../services/projects/projects.service';
+import { REDMINE_PROJECT_URL } from '../../constants';
 
 @Component({
   selector: 'app-project-detail',
@@ -10,16 +12,21 @@ import {EventsService} from "../../services/filter-event/events.service";
 })
 export class ProjectDetailComponent implements OnInit {
 
+  project: Project;
   redmine_id: string;
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute, private _data: DataService, private _projectsService: ProjectsService) {
     this.activatedRoute.params.subscribe(params => {
       this.redmine_id = params.redmineId;
+      this._projectsService.getProject(Number(this.redmine_id)).subscribe(res => this.project = res);
     });
   }
 
   ngOnInit() {
-    console.log(this.redmine_id);
+  }
+
+  openRedmine() {
+    window.open(REDMINE_PROJECT_URL + this.project.id, "_blank");
   }
 
 }

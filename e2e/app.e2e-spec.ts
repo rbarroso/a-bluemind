@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('bluemind App', () => {
+describe('a-bluemind app', () => {
   let page: AppPage;
 
   beforeEach(() => {

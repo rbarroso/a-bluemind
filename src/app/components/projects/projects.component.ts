@@ -5,13 +5,13 @@ import { Project } from '../../models/project';
 import { Observer } from '../../models/observer.interface';
 import { EventsService } from '../../services/filter-event/events.service';
 import { NavbarSearchEvent } from '../../models/navbar-search.event';
-import { Observable } from "rxjs/Observable";
 import {
   PROJECT_TYPES_COMERCIAL, PROJECT_TYPES_ESTRUCTURAL, PROJECT_TYPES_INTERNAL,
   PROJECT_TYPES_PROD
 } from '../../constants';
 import { Router } from '@angular/router';
-import {ForceNavbarSearchEvent} from "../../models/force-navbar-search.event";
+import { ForceNavbarSearchEvent } from '../../models/force-navbar-search.event';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'app-projects',
@@ -23,7 +23,7 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
   constructor(private _tokenService: TokenService,
               private _projectsService: ProjectsService,
               private _eventsService: EventsService,
-              private router: Router) {
+              private router: Router, private _data: DataService) {
   }
 
   get projectTypesProd() { return PROJECT_TYPES_PROD; }
@@ -91,8 +91,8 @@ export class ProjectsComponent implements OnInit, OnDestroy, Observer {
     }
   }
 
-  goToDetail(redmine_id: number) {
-    this.router.navigate(['/projects/detail', redmine_id]);
+  goToDetail(project: Project) {
+    this.router.navigate(['/projects/detail', project.redmine_id]);
   }
 
 }

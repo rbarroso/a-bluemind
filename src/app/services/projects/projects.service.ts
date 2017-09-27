@@ -10,7 +10,7 @@ import 'rxjs/add/operator/mergeMap';
 
 
 import {
-  LOCAL_S_PROJECT_COUNT_PROP, LOCAL_S_PROJECTS_PROP, REDMINE_EP_GET_PROJECTS,
+  LOCAL_S_PROJECT_COUNT_PROP, LOCAL_S_PROJECTS_PROP, REDMINE_EP_GET_PROJECTS, REDMINE_EP_GET_SINGLE_PROJECT,
   REDMINE_PROTOCOL
 } from '../../constants';
 
@@ -22,7 +22,7 @@ export class ProjectsService {
   constructor(private http: Http, private jsonp: Jsonp, private _tokenService: TokenService) {}
 
   private getSecurityString(): string {
-    return `&key=${this._tokenService.getToken()}`;
+    return `key=${this._tokenService.getToken()}`;
   }
 
   filterProjects(projects: Project[], categories: string[], filter?: string) {
@@ -42,7 +42,7 @@ export class ProjectsService {
     let limit: number = 1;
     let offset: number = 1;
 
-    let query = `?offset=${offset}&limit=${limit}`;
+    let query = `?offset=${offset}&limit=${limit}&`;
     let url = REDMINE_PROTOCOL + REDMINE_EP_GET_PROJECTS + query + this.getSecurityString() + '&callback=JSONP_CALLBACK';
 
     return this.jsonp.get(url)
@@ -95,6 +95,16 @@ export class ProjectsService {
 
   getActiveProjectsLS(): Observable<Project[]> {
     return Observable.of(JSON.parse(localStorage.getItem(LOCAL_S_PROJECTS_PROP)));
+  }
+
+  getProject(redmine_id: number): Observable<Project> {
+    let url: string = REDMINE_PROTOCOL +
+      REDMINE_EP_GET_SINGLE_PROJECT.replace('[ID]', redmine_id.toString())
+      + '?' + this.getSecurityString();
+    return this.http.get(url).map(res => {
+      return new Project(res.json().project.identifier, res.json().project.id, res.json().project.name,
+        res.json().project.custom_fields[0].value);
+    });
   }
 
 }

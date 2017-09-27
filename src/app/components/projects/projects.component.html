@@ -23,7 +23,7 @@
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of productionProjects | slice:0:productionSlice" (click)="goToDetail(project.redmine_id)">
+            *ngFor="let project of productionProjects | slice:0:productionSlice" (click)="goToDetail(project)">
             {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
@@ -47,7 +47,7 @@
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of estructuralProjects | slice:0:estructuralSlice" (click)="goToDetail(project.redmine_id)">
+            *ngFor="let project of estructuralProjects | slice:0:estructuralSlice" (click)="goToDetail(project)">
             {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
@@ -72,7 +72,7 @@
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of internalProjects | slice:0:internalSlice" (click)="goToDetail(project.redmine_id)">
+            *ngFor="let project of internalProjects | slice:0:internalSlice" (click)="goToDetail(project)">
              {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
@@ -96,7 +96,7 @@
       <hr>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action"
-            *ngFor="let project of comercialProjects | slice:0:comercialSlice" (click)="goToDetail(project.redmine_id)">
+            *ngFor="let project of comercialProjects | slice:0:comercialSlice" (click)="goToDetail(project)">
             {{ project.name }}
         </li>
         <li class="list-group-item list-group-item-warning"
